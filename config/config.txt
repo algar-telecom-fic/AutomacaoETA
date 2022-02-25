@@ -1,0 +1,4 @@
+inputFile:./docs/export.txt
+outputFile:./docs/export.txt
+primarySearchParam:Area3
+secondarySearchParam:metric

@@ -1,0 +1,65 @@
+set policy-options policy-statement Export_PNI term Route_Security from policy Route_Security
+set policy-options policy-statement Export_PNI term Route_Security then reject
+set policy-options policy-statement Export_PNI term BGP_Customer_NO_Export from community CTBC_Customer_No_Export
+set policy-options policy-statement Export_PNI term BGP_Customer_NO_Export from community CTBC_Internacional
+set policy-options policy-statement Export_PNI term BGP_Customer_NO_Export then reject
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community BRAS-Regiao-ULA
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community BRAS-Regiao-PMS
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community BRAS-Regiao-IUA
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community BRAS-Regiao-GNA
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community BRAS-Regiao-URA
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community BRAS-Regiao-FRU
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community Algar_Customer_Area1_Ilha11
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community Algar_Customer_Area1_Ilha12
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community Algar_Customer_Area1_Ilha10
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community Algar_Customer_Area1_Ilha18
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community Algar_Customer_Area1_Ilha19
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 from community Algar_Customer_Area1_Ilha20
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 then metric 30
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area1 then next term
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area2 from community Algar_Customer_Area2_Ilha1
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area2 from community Algar_Customer_Area2_Ilha2
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area2 from community Algar_Customer_Area2_Ilha3
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area2 from community Algar_Customer_Area2_Ilha4
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area2 from community BRAS-Regiao-PAE
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area2 then metric 20
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area2 then next term
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community Algar_Customer_Area3_Ilha7
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community Algar_Customer_Area3_Ilha8
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community Algar_Customer_Area3_Ilha9
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community Algar_Customer_Area3_Ilha13
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community Algar_Customer_Area3_Ilha14
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community Algar_Customer_Area3_Ilha15
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community Algar_Customer_Area3_Ilha16
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community Algar_Customer_Area3_Ilha17
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community BRAS-Regiao-BHE
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community BRAS-Regiao-SMG
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community BRAS-Regiao-SPO
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 then metric 80
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 then next term
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 from community Algar_Customer_Area4_Ilha5
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 from community Algar_Customer_Area4_Ilha6
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 from community BRAS-Regiao-AJU
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 from community BRAS-Regiao-FLA
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 from community BRAS-Regiao-JPA
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 from community BRAS-Regiao-MCO
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 from community BRAS-Regiao-RCE
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 from community BRAS-Regiao-SDR
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 then metric 10
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 then next term
+set policy-options policy-statement Export_PNI term BGP_Customer_Prepend_1 from community CTBC_Prepend_Nac_1
+set policy-options policy-statement Export_PNI term BGP_Customer_Prepend_1 then as-path-prepend 16735
+set policy-options policy-statement Export_PNI term BGP_Customer_Prepend_1 then accept
+set policy-options policy-statement Export_PNI term BGP_Customer_Prepend_2 from community CTBC_Prepend_Nac_2
+set policy-options policy-statement Export_PNI term BGP_Customer_Prepend_2 then as-path-prepend "16735 16735"
+set policy-options policy-statement Export_PNI term BGP_Customer_Prepend_2 then accept
+set policy-options policy-statement Export_PNI term BGP_Customer_Prepend_3 from community CTBC_Prepend_Nac_3
+set policy-options policy-statement Export_PNI term BGP_Customer_Prepend_3 then as-path-prepend "16735 16735 16735"
+set policy-options policy-statement Export_PNI term BGP_Customer_Prepend_3 then accept
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export from community CTBC_Customer_BGP
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export then accept
+set policy-options policy-statement Export_PNI term BGP_Customer_Partial_Transit from community Customer_Partial_Transit
+set policy-options policy-statement Export_PNI term BGP_Customer_Partial_Transit then accept
+set policy-options policy-statement Export_PNI term Export_CTBC_Networks from community Rotas_CTBC
+set policy-options policy-statement Export_PNI term Export_CTBC_Networks then accept
+set policy-options policy-statement Export_PNI then reject
