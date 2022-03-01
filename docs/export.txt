@@ -35,7 +35,7 @@ set policy-options policy-statement Export_PNI term BGP_Customer_Community_Expor
 set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community BRAS-Regiao-BHE
 set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community BRAS-Regiao-SMG
 set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 from community BRAS-Regiao-SPO
-set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 then metric 80
+set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 then metric 10
 set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 then next term
 set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 from community Algar_Customer_Area4_Ilha5
 set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area4 from community Algar_Customer_Area4_Ilha6

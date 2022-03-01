@@ -1,0 +1,26 @@
+usuario execucao,dia semana,data,horario,comando,hostname,usuario remoto,host,porta,sucesso execucao
+gabriel,Tuesday,03/01/2022,04:24:43,"ls",Maquina01,gabriel,127.0.0.1,3022,True
+gabriel,Tuesday,03/01/2022,04:24:43,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+pedro,Tuesday,03/01/2022,04:24:49,"ls",Maquina01,gabriel,127.0.0.1,3022,True
+pedro,Tuesday,03/01/2022,04:24:50,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+joao,Tuesday,03/01/2022,04:24:53,"ls",Maquina01,gabriel,127.0.0.1,3022,True
+joao,Tuesday,03/01/2022,04:24:53,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+paulo,Tuesday,03/01/2022,04:25:02,"ls",Maquina01,gabriel,127.0.0.1,3022,True
+paulo,Tuesday,03/01/2022,04:25:02,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+paulo,Tuesday,03/01/2022,04:25:06,"ls",Maquina Algar,gabriel,192.168.100.4,22,True
+roberto,Tuesday,03/01/2022,04:25:09,"ls",Maquina01,gabriel,127.0.0.1,3022,True
+roberto,Tuesday,03/01/2022,04:25:10,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+roberto,Tuesday,03/01/2022,04:25:13,"ls",Maquina Algar,gabriel,192.168.100.4,22,True
+luiz,Tuesday,03/01/2022,04:25:23,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+jeffersopn,Tuesday,03/01/2022,04:25:32,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+claudio,Tuesday,03/01/2022,04:25:38,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+glauber,Tuesday,03/01/2022,04:25:49,"ls",Maquina01,gabriel,127.0.0.1,3022,True
+glauber,Tuesday,03/01/2022,04:25:49,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+glauber,Tuesday,03/01/2022,04:25:53,"ls",Maquina Algar,gabriel,192.168.100.4,22,True
+leo,Tuesday,03/01/2022,04:25:56,"ls",Maquina01,gabriel,127.0.0.1,3022,True
+leo,Tuesday,03/01/2022,04:25:56,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+leo,Tuesday,03/01/2022,04:26:00,"ls",Maquina Algar,gabriel,192.168.100.4,22,True
+agnaldo,Tuesday,03/01/2022,04:26:05,"ls",Maquina01,gabriel,127.0.0.1,3022,True
+agnaldo,Tuesday,03/01/2022,04:26:06,"ls",Maquina02 Clone,gabriel,127.0.0.1,3023,True
+felps,Tuesday,03/01/2022,04:26:16,"ls",Maquina01,gabriel,127.0.0.1,3022,True
+felps,Tuesday,03/01/2022,04:26:20,"ls",Maquina Algar,gabriel,192.168.100.4,22,True

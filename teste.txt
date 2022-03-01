@@ -1,1 +1,0 @@
-Digite o novo valor de preferencia: set policy-options policy-statement Export_PNI term BGP_Customer_Community_Export_Area3 then metric 10

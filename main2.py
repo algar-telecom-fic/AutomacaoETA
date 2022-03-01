@@ -2,9 +2,6 @@ import traceback
 import exceptions
 import paramiko
 import json
-import datetime
-import io
-import os
 
 errorFormatacaoArquivoConfig = "Formato do arquivo incorreto!"
 errorAberturaArquivoConfig = "Falha na abertura do arquivo!"
@@ -25,64 +22,50 @@ textoFeedbackFinalConexao = "Encerrando conexao em: \"hostname\" (user@host:port
 
 command = "ls"
 
-delimiter = ","
-delimiter1 = "\""
-newLine = "\n"
-
-header = "usuario execucao" + delimiter + "dia semana" + delimiter + "data" + delimiter + "horario" + delimiter + "comando" + delimiter + "hostname" + delimiter + "usuario remoto" + delimiter + "host" + delimiter + "porta" + delimiter + "sucesso execucao remoto" + newLine
-
+hosts = []
+ports = []
+hostnames = []
+users = []
+passwords = []
+credentials = []
+variavelTeste = []
 hostsVerificados = 0
 connectionInfoList = {}
+
 connectionInfo = {}
-flag = True
-logFile: io.TextIOWrapper = None
-username = ""
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-def getDatetimeFormated():
-    dateTemp = datetime.datetime.now()
-    return dateTemp.strftime("%A" + delimiter + "%m/%d/%Y" + delimiter + "%X")
+def readHosts():
+    hostFile = open("./values/hosts.txt", "r")
+    for x in hostFile:
+        hosts.append(x.strip())
+    # print(hosts)
+    hostFile.close()
 
-def checkSizeLogFile():
-    filesize = os.path.getsize("logs.log")
-    if filesize == 0:
-        return True
-    else:
-        return False
+def readPorts():
+    portsFile = open("./values/ports.txt")
+    for x in portsFile:
+        ports.append(x.strip())
+    # print(ports)
+    portsFile.close()
 
-def openLogFile():
-    global logFile
-    logFile = open("logs.log", "a")
-    if checkSizeLogFile() == True:
-        logFile.write(header)
+def readHostnames():
+    hostnamesFile = open("./values/hostnames.txt")
+    for x in hostnamesFile:
+        hostnames.append(x.strip())
+    # print(hostnames)
+    hostnamesFile.close()
 
-def writeLogFile(flagParam=None, content = []):
-    global logFile
-    logFile.write(username + delimiter + getDatetimeFormated() + delimiter + delimiter1 + command + delimiter1 + delimiter)
-    if not content:
-        logFile.write(str(flagParam) + newLine)
-    else:
-        logFile.write(content[0] + delimiter + content[1] + delimiter + content[2] + delimiter + content[3] + delimiter)
-        logFile.write(str(flagParam) + newLine)
-
-def closeLogFile(flagParam):
-    writeLogFile(flagParam)
-    global logFile
-    logFile.close()
-
-def checkExecutionFlag():
-    if flag == False:
-        return closeLogFile(flag)
-    else:
-        return closeLogFile(flag)
-
-def setFlag(flagParam):
-    global flag
-    flag = flagParam
-    print(flag)
-    checkExecutionFlag()
+def readCredentials():
+    credentialsFile = open("./values/credentials.txt")
+    for x in credentialsFile:
+        temp = x.split()
+        users.append(temp[0])
+        passwords.append(temp[1])
+    # print(credentials)
+    credentialsFile.close()
 
 def readConnectionInfo():
     infoFile = open("./values/data.json")
@@ -122,12 +105,16 @@ def closeConnectionHost():
         .replace("port", connectionInfoList["port"])
     )
     ssh.close()
-    writeLogFile(flag, content=[connectionInfoList["hostname"], connectionInfoList["user"], connectionInfoList["host"], connectionInfoList["port"]])
     global hostsVerificados
     hostsVerificados += 1
+    # variavelTeste.append(True)
 
 def readFiles():
     readConnectionInfo()
+    # readHosts()
+    # readPorts()
+    # readHostnames()
+    # readCredentials()
 
 def repeatConnections():
     for i in range(len(connectionInfo)):
@@ -137,66 +124,50 @@ def repeatConnections():
         
 def main():
     try:
-        global username
-        username = input("Digite seu nome: ")
-        openLogFile()
         readFiles()
         repeatConnections()
     except FileNotFoundError as error:
-        setFlag(False)
-        print(traceback.format_exc())
+        # print(traceback.format_exc())
         print(error.args[1])
         print(errorAberturaArquivoConfig)
     except SyntaxError as error:
-        setFlag(False)
-
         print(error.args[1])
         # print(traceback.format_exc())
         print(errorFormatacaoArquivoConfig)
     
     except paramiko.AuthenticationException as error:
-        setFlag(False)
         # print(traceback.format_exc())
         print(error)
         print(errorAutenticacao)
     except paramiko.ssh_exception.NoValidConnectionsError as error:
-        setFlag(False)
         # print(traceback.format_exc())
         print(error)
         print(errorConexaoInvalida)
     except BlockingIOError as error:
-        setFlag(False)
         print(error)
         print(errorRecursoTemporariamenteInvalido)
     
     except exceptions.ResultadosConflitantesError:
-        setFlag(False)
         print(traceback.format_exc())
         print(errorResultadosConflitantes)
     except exceptions.ResultadosNaoEncontradosError:
-        setFlag(False)
         print(traceback.format_exc())
         print(errorResultadoNaoEncontrado)
     except exceptions.RetornoIncorretoError:
-        setFlag(False)
         print(traceback.format_exc())
         print(errorResultadoNaoEncontrado)
     except exceptions.ConfirmacaoNegadaError:
-        setFlag(False)
         print(traceback.format_exc())
         print(errorConfirmacaoBusca)
     except exceptions.ExecucaoComandoBashError as error:
-        setFlag(False)
         # print(traceback.format_exc())
         print("\n===========ERRO===========")
         print("Erro na execucao do comando configurado no dispositivo!")
         print(error)
         print("==========================\n")
     except:
-        # setFlag(False)
         print(traceback.format_exc())
         print(errorGenerico)
-
 
 if __name__ == "__main__":
     main()

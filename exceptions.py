@@ -9,3 +9,6 @@ class RetornoIncorretoError(Exception):
 
 class ConfirmacaoNegadaError(Exception):
     pass
+
+class ExecucaoComandoBashError(Exception):
+    pass
