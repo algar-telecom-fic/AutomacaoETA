@@ -27,7 +27,8 @@ textoExecucaoCorreta = "O script foi executado corretamente e o arquivo de saida
 textoFeedbackInicioConexao = "Iniciando conexao em: \"hostname\" (user@host:port)"
 textoFeedbackFinalConexao = "Encerrando conexao em: \"hostname\" (user@host:port)"
 
-command = "ls"
+command = ["ip address print", "export"]
+# command = ["file print detail"]
 
 delimiter = ","
 delimiter1 = "\""
@@ -45,6 +46,7 @@ logsList = []
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ftp_client = None
 
 def getDatetimeFormated():
     dateTemp = datetime.datetime.now()
@@ -99,9 +101,12 @@ def setFlag(flagParam):
     logsList[len(logsList)-1].obj["flag"] = flagParam
 
 def readConnectionInfo():
-    infoFile = open("./values/data.json")
-    global connectionInfo
-    connectionInfo = json.load(infoFile)["data"]
+    try:
+        infoFile = open("./values/data.json")
+        global connectionInfo
+        connectionInfo = json.load(infoFile)["data"]
+    except:
+        print("Erro na abertura do JSON de configuracao de hosts")
 
 def setValuesLogs(userRequest = "", flag = "", weekday = "", date = "", time = "", command = "", hostname = "", userRemote = "", host = "", port = "", success = "", error = ""):
     if userRequest:
@@ -149,6 +154,8 @@ def connectHost():
         setValuesLogs(hostname=connectionInfoList["hostname"], host=connectionInfoList["host"], port=connectionInfoList["port"], userRemote=connectionInfoList["user"])
         try:
             ssh.connect(connectionInfoList["host"], connectionInfoList["port"], connectionInfoList["user"], connectionInfoList["password"])
+            global ftp_client
+            ftp_client = ssh.open_sftp()
             setFlag(True)
             setValuesLogs(flag = flag, success=True)
             return True
@@ -156,21 +163,24 @@ def connectHost():
             setFlag(False)
             setValuesLogs(flag = flag, command=False, success=False, error=err)
             print(logsList[len(logsList)-1].printResult())
-
+            ssh.close()
             print(err)
             hostsVerificados += 1
             return False
 
 def executeCommandHost():
-    setValuesLogs(command=command)
-    stdin, stdout, stderr = ssh.exec_command(command)
-    lines = stdout.readlines()
-    linesErr = stderr.readlines()
-    if(linesErr):
-        raise exceptions.ExecucaoComandoBashError(linesErr)
-    else:
-        setValuesLogs(success=True)
-        print(lines)
+    for j in command:
+        # ftp_client.get('/file/RouterOS-20220809-1420.backup','/home/gabriel/Documents/github/AutomacaoETA/saida.txt')
+        # saida.txt
+        setValuesLogs(command=j)
+        stdin, stdout, stderr = ssh.exec_command(j)
+        lines = stdout.readlines()
+        linesErr = stderr.readlines()
+        if(linesErr):
+            raise exceptions.ExecucaoComandoBashError(linesErr)
+        else:
+            setValuesLogs(success=True)
+            print(lines)
 
 def closeConnectionHost():
     print(textoFeedbackFinalConexao

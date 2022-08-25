@@ -1,0 +1,12 @@
+{
+    "data":[
+        {
+            "hostname": "Mikrotik-1",
+            "host": "192.168.30.2",
+            "port": "22",
+            "user": "admin",
+            "password": "",
+            "executable": true
+        }
+    ]
+}
