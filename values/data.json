@@ -6,7 +6,18 @@
             "port": "22",
             "user": "admin",
             "password": "",
-            "executable": true
+            "executable": false,
+            "vendor": "mikrotik"
+        },
+        {
+            "hostname": "Cisco R1",
+            "host": "192.168.20.3",
+            "port": "22",
+            "user": "cisco",
+            "password": "cisco",
+            "executable": true,
+            "vendor": "cisco"
         }
     ]
 }
+

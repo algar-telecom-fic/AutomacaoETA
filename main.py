@@ -21,13 +21,27 @@ errorAutenticacao = "Falha na autenticacao. Verifique as credenciais!"
 errorConexaoInvalida = "Nao foi possivel conectar!"
 errorRecursoTemporariamenteInvalido = "Nao foi possivel conectar! Recurso temporariamente invalido."
 errorGenerico = "Um erro foi encontrado durante a execucao do script"
+errorMessage = "O erro foi: "
 textoValorPrioridade = "Digite o novo valor de prioridade: "
 textoConfirmacaoBusca = "A busca sera feita baseado nos seguintes termos:\nTermo 01: textoAqui01\nTermo 02: textoAqui02"
 textoExecucaoCorreta = "O script foi executado corretamente e o arquivo de saida esta pronto!"
 textoFeedbackInicioConexao = "Iniciando conexao em: \"hostname\" (user@host:port)"
 textoFeedbackFinalConexao = "Encerrando conexao em: \"hostname\" (user@host:port)"
 
-command = ["ip address print", "export"]
+commandsCisco = [
+    {
+        "action": "show network info",
+        "commands": ["sh ip int brief", "conf t"]
+        # "commands": ["sh ip int brief", "sh ip int brief"]
+
+    },
+    {
+        "action": "show ip address",
+        "commands": ["ip address print"]
+    },
+]
+
+# command = ["ip address print", "export"]
 # command = ["file print detail"]
 
 delimiter = ","
@@ -44,8 +58,8 @@ logFile: io.TextIOWrapper = None
 username = ""
 logsList = []
 
-ssh = paramiko.SSHClient()
-ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+# ssh = paramiko.SSHClient()
+# ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 ftp_client = None
 
 def getDatetimeFormated():
@@ -153,9 +167,12 @@ def connectHost():
         )
         setValuesLogs(hostname=connectionInfoList["hostname"], host=connectionInfoList["host"], port=connectionInfoList["port"], userRemote=connectionInfoList["user"])
         try:
+            global ssh
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ssh.connect(connectionInfoList["host"], connectionInfoList["port"], connectionInfoList["user"], connectionInfoList["password"])
-            global ftp_client
-            ftp_client = ssh.open_sftp()
+            # global ftp_client
+            # ftp_client = ssh.open_sftp()
             setFlag(True)
             setValuesLogs(flag = flag, success=True)
             return True
@@ -168,19 +185,61 @@ def connectHost():
             hostsVerificados += 1
             return False
 
-def executeCommandHost():
-    for j in command:
-        # ftp_client.get('/file/RouterOS-20220809-1420.backup','/home/gabriel/Documents/github/AutomacaoETA/saida.txt')
-        # saida.txt
-        setValuesLogs(command=j)
+# def executeCommandHost():
+#     command = ""
+    
+#     for i in commandsCisco:
+#         if(i["action"] == "show ip address"):
+#             command = i["command"]
+#             break
+#     if(command == ""):
+#         raise exceptions.ResultadosNaoEncontradosError("Comando para execucao no equipamento nao encontrado!")
+#     print(commandsCisco[1]["action"] == "show ip address")
+#     for j in command:
+#         # ftp_client.get('/file/RouterOS-20220809-1420.backup','/home/gabriel/Documents/github/AutomacaoETA/saida.txt')
+#         # saida.txt
+#         setValuesLogs(command=j)
+#         stdin, stdout, stderr = ssh.exec_command(j)
+#         lines = stdout.readlines()
+#         linesErr = stderr.readlines()
+#         if(linesErr):
+#             raise exceptions.ExecucaoComandoBashError(linesErr)
+#         else:
+#             setValuesLogs(success=True)
+#             print(lines)
+
+def executeCommandHostCisco():
+    commands = ""
+    
+    for i in commandsCisco:
+        if(i["action"] == "show network info"):
+            commands = i["commands"]
+            break
+    if(commands == ""):
+        raise exceptions.ResultadosNaoEncontradosError("Comando para execucao no equipamento, nao encontrado!")
+    # print(commandsCisco[1]["action"] == "show ip address")
+
+    # for j in commands:
+    #     print(j)
+    #     # if()
+    #     # print(chan.send(j))
+    #     # print(chan.set_combine_stderr(True))
+    #     # print(stdout.channel.exit_status_ready())
+
+    # print(commands)
+    for j in commands:
+        print(j)
+        # setValuesLogs(command=j)
         stdin, stdout, stderr = ssh.exec_command(j)
-        lines = stdout.readlines()
-        linesErr = stderr.readlines()
-        if(linesErr):
-            raise exceptions.ExecucaoComandoBashError(linesErr)
-        else:
-            setValuesLogs(success=True)
-            print(lines)
+        time.sleep(.5)
+        print(stdout.read().decode())
+        # lines = stdout.readlines()
+        # linesErr = stderr.readlines()
+        # if(linesErr):
+        #     raise exceptions.ExecucaoComandoBashError(linesErr)
+        # else:
+        #     setValuesLogs(success=True)
+        #     print(lines)
 
 def closeConnectionHost():
     print(textoFeedbackFinalConexao
@@ -189,7 +248,7 @@ def closeConnectionHost():
         .replace("host", connectionInfoList["host"])
         .replace("port", connectionInfoList["port"])
     )
-    ssh.close()
+    # ssh.close()
     logsList[len(logsList)-1].obj["flag"] = flag
     logsList[len(logsList)-1].obj["hostname"] = connectionInfoList["hostname"]
     logsList[len(logsList)-1].obj["userRemote"] = connectionInfoList["user"]
@@ -211,7 +270,10 @@ def readFiles():
 def repeatConnections():
     for i in range(len(connectionInfo)):
         if connectHost() == True:
-            executeCommandHost()
+            if connectionInfo[i]["vendor"] == "cisco":
+                executeCommandHostCisco()
+
+            # executeCommandHost()
             closeConnectionHost()
         
 def main():
@@ -256,10 +318,12 @@ def main():
         setFlag(False)
         print(traceback.format_exc())
         print(errorResultadosConflitantes)
-    except exceptions.ResultadosNaoEncontradosError:
+    except exceptions.ResultadosNaoEncontradosError as error:
         setFlag(False)
         print(traceback.format_exc())
         print(errorResultadoNaoEncontrado)
+        print(errorMessage, end="")
+        print(error)
     except exceptions.RetornoIncorretoError:
         setFlag(False)
         print(traceback.format_exc())
