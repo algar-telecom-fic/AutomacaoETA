@@ -1,0 +1,147 @@
+Iniciando conexao em: "192.168.20.3name" (cisco@192.168.20.3:22)
+{'device_type': 'cisco_ios', 'host': '192.168.20.3', 'port': '22', 'username': 'cisco', 'password': 'cisco'}
+
+Comando: show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+FastEthernet0/0        192.168.1.1     YES NVRAM  up                    up      
+FastEthernet1/0        192.168.2.1     YES NVRAM  up                    up      
+FastEthernet1/1        unassigned      YES NVRAM  administratively down down    
+GigabitEthernet2/0     192.168.20.3    YES NVRAM  up                    up      
+GigabitEthernet3/0     unassigned      YES NVRAM  administratively down down    
+
+Comando: sh run
+Building configuration...
+
+Current configuration : 1878 bytes
+!
+! Last configuration change at 01:33:23 UTC Fri Oct 14 2022 by cisco
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+no ip icmp rate-limit unreachable
+ip cef
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name teste.local
+no ipv6 cef
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+username cisco privilege 15 password 0 cisco
+username admin privilege 15 password 0 123456
+!
+!
+ip tcp synwait-time 5
+ip ssh time-out 15
+ip ssh authentication-retries 2
+ip ssh port 2222 rotary 1
+ip ssh version 2
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+ duplex full
+!
+interface FastEthernet1/0
+ ip address 192.168.2.1 255.255.255.0
+ speed auto
+ duplex auto
+!
+interface FastEthernet1/1
+ no ip address
+ shutdown
+ speed auto
+ duplex auto
+!
+interface GigabitEthernet2/0
+ ip address 192.168.20.3 255.255.255.0
+ negotiation auto
+!
+interface GigabitEthernet3/0
+ no ip address
+ shutdown
+ negotiation auto
+!
+router ospf 1
+ network 192.168.1.0 0.0.0.255 area 0
+ network 192.168.2.0 0.0.0.255 area 0
+ network 192.168.20.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+ip access-list extended DenyStdSSH
+ip access-list extended NO22
+ permit tcp any any eq 22
+ permit tcp any any eq 2222
+ip access-list extended test
+ permit tcp any any
+ permit udp any any
+ permit icmp any any
+ permit ip any any
+!
+access-list 1 permit 0.0.0.0 0.0.0.255
+access-list 10 permit 192.168.20.4
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+ stopbits 1
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+ stopbits 1
+line vty 0 4
+ access-class NO22 in
+ privilege level 15
+ login local
+ rotary 1
+ transport input telnet ssh
+!
+!
+end
+
+Encerrando conexao em: "Cisco R1" (cisco@192.168.20.3:22)

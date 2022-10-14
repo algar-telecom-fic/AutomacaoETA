@@ -1982,3 +1982,35 @@ gabriel,True,Thursday,10/06/2022,12:29:20,,Cisco R1,cisco,192.168.20.3,22,True,
 gabriel,True,Thursday,10/06/2022,12:30:11,,Cisco R1,cisco,192.168.20.3,22,True,
 gabriel,True,Thursday,10/06/2022,12:51:11,,Cisco R1,cisco,192.168.20.3,22,True,
 gabriel,True,Thursday,10/06/2022,12:51:48,,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,False,Friday,10/14/2022,01:19:25,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:23:03,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:23:24,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:23:43,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:23:55,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:24:12,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:24:30,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:25:29,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:25:36,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:26:05,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:26:17,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:26:21,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:26:32,,192.168.20.3,cisco,192.168.20.3,22,False,'device_type'
+gabriel,False,Friday,10/14/2022,01:27:04,,192.168.20.3,cisco,192.168.20.3,22,False,
+gabriel,True,Friday,10/14/2022,01:28:41,,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:28:58,,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:29:05,,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:32:05,,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:32:38,,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:32:56,,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:33:20,,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:33:59,,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:34:47,show ip interface brief,Cisco R1,cisco,192.168.20.3,22,,
+gabriel,True,Friday,10/14/2022,01:36:30,show ip interface briefs,Cisco R1,cisco,192.168.20.3,22,,
+gabriel,True,Friday,10/14/2022,01:38:38,show ip interface briefs,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:39:01,show ip interface briefs,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:41:05,sh run,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:41:31,sh run,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:41:43,sh run,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:42:04,sh run,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:42:26,sh run,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/14/2022,01:42:39,sh run,Cisco R1,cisco,192.168.20.3,22,True,
