@@ -1,4 +1,8 @@
-Iniciando conexao em: "192.168.20.3name" (cisco@192.168.20.3:22)
+Selecione uma opcao abaixo: 
+ 1 - Selecionar comando
+ 8 - Ajuda
+ 9 - Sair
+Opcao: Digite o comando que deseja executar: Iniciando conexao em: "Cisco R1" (cisco@192.168.20.3:22)
 {'device_type': 'cisco_ios', 'host': '192.168.20.3', 'port': '22', 'username': 'cisco', 'password': 'cisco'}
 
 Comando: show ip interface brief
@@ -9,12 +13,10 @@ FastEthernet1/1        unassigned      YES NVRAM  administratively down down
 GigabitEthernet2/0     192.168.20.3    YES NVRAM  up                    up      
 GigabitEthernet3/0     unassigned      YES NVRAM  administratively down down    
 
-Comando: sh run
+Comando: show running-config
 Building configuration...
 
-Current configuration : 1878 bytes
-!
-! Last configuration change at 01:33:23 UTC Fri Oct 14 2022 by cisco
+Current configuration : 1807 bytes
 !
 version 15.2
 service timestamps debug datetime msec

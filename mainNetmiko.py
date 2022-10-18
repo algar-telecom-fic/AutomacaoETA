@@ -10,6 +10,7 @@ import time
 
 import exceptions
 from logs import logs as logsClass
+from userInterface import userInterface
 
 errorFormatacaoArquivoConfig = "Formato do arquivo incorreto!"
 errorAberturaArquivoConfig = "Falha na abertura do arquivo!"
@@ -32,16 +33,15 @@ textoFeedbackFinalConexao = "Encerrando conexao em: \"hostname\" (user@host:port
 commandsCisco = [
     {
         "action": "show network info",
-        "commands": ["show ip interface brief", "sh run"]
-        # "commands": ["sh ip int brief", "conf t"]
-        # "commands": ["sh ip int brief", "sh ip int brief"]
-
+        "commands": ["show ip interface brief", "show running-config"]
     },
-    {
-        "action": "show ip address",
-        "commands": ["ip address print"]
-    },
+    # {
+    #     "action": "show ip address",
+    #     "commands": ["ip address print"]
+    # },
 ]
+
+choosenCommand = ""
 
 # command = ["ip address print", "export"]
 # command = ["file print detail"]
@@ -107,7 +107,6 @@ def writeLogFile():
 
 
 def closeLogFile():
-    writeLogFile()
     global logFile
     logFile.close()
 
@@ -159,20 +158,15 @@ def connectHost():
     # else:
     logsList.append(logsClass())
     setValuesLogs(userRequest=username, weekday=getWeekday(), date=getDate(), time=getTime())
-    # print(logsList[len(logsList)-1].printResult())
 
     print(textoFeedbackInicioConexao
-        # .replace("hostname", connectionInfoList["hostname"])
+        .replace("hostname", connectionInfoList["hostname"])
         .replace("user", connectionInfoList["username"])
         .replace("host", connectionInfoList["host"])
         .replace("port", connectionInfoList["port"])
     )
     setValuesLogs(hostname=connectionInfoList["host"], host=connectionInfoList["host"], port=connectionInfoList["port"], userRemote=connectionInfoList["username"])
     try:
-        # global ssh
-        # ssh = paramiko.SSHClient()
-        # ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        # ssh.connect(connectionInfoList["host"], connectionInfoList["port"], connectionInfoList["username"], connectionInfoList["password"])
         obj = {
             "device_type": connectionInfoList["device_type"],
             "host": connectionInfoList["host"],
@@ -180,11 +174,9 @@ def connectHost():
             "username": connectionInfoList["username"],
             "password": connectionInfoList["password"]
         }
-        print(obj)
+        # print(obj)
         global ssh
         ssh = ConnectHandler(**obj)
-        # global ftp_client
-        # ftp_client = ssh.open_sftp()
         setFlag(True)
         setValuesLogs(flag = flag, success=True)
         return True
@@ -197,57 +189,28 @@ def connectHost():
         hostsVerificados += 1
         return False
 
-# def executeCommandHost():
-#     command = ""
-    
-#     for i in commandsCisco:
-#         if(i["action"] == "show ip address"):
-#             command = i["command"]
-#             break
-#     if(command == ""):
-#         raise exceptions.ResultadosNaoEncontradosError("Comando para execucao no equipamento nao encontrado!")
-#     print(commandsCisco[1]["action"] == "show ip address")
-#     for j in command:
-#         # ftp_client.get('/file/RouterOS-20220809-1420.backup','/home/gabriel/Documents/github/AutomacaoETA/saida.txt')
-#         # saida.txt
-#         setValuesLogs(command=j)
-#         stdin, stdout, stderr = ssh.exec_command(j)
-#         lines = stdout.readlines()
-#         linesErr = stderr.readlines()
-#         if(linesErr):
-#             raise exceptions.ExecucaoComandoBashError(linesErr)
-#         else:
-#             setValuesLogs(success=True)
-#             print(lines)
-
 def executeCommandHostCisco():
-    for i in commandsCisco:
-        if(i["action"] == "show network info"):
-            commands = i["commands"]
-            break
-    if(commands == ""):
-        raise exceptions.ResultadosNaoEncontradosError("Comando para execucao no equipamento, nao encontrado!")
-    # print(commandsCisco[1]["action"] == "show ip address")
+    try:
+        for i in commandsCisco:
+            if(i["action"] == choosenCommand):
+                commands = i["commands"]
+                break
+        if(commands == ""):
+            raise exceptions.ResultadosNaoEncontradosError("Comando para execucao no equipamento, nao encontrado!")
 
-    for j in commands:
-        print("\nComando: " + j)
-        setValuesLogs(command=j)
-        stdout = ssh.send_command(j)
-        # print(stdout)
-        # stdin, stdout, stderr = ssh.exec_command(j)
-        # time.sleep(.5)
-        if stdout.find("Invalid input detected at '^' marker.") == -1:
-            setValuesLogs(success=True)
-            print(stdout)
-        else:
-            raise exceptions.ExecucaoComandoBashError(stdout)
+        for j in commands:
+            print("\nComando: " + j)
+            setValuesLogs(command=commands)
+            stdout = ssh.send_command(j)
+            if stdout.find("Invalid input detected at '^' marker.") == -1:
+                setValuesLogs(success=True)
+                print(stdout)
+            else:
+                raise exceptions.ExecucaoComandoBashError(stdout)
+    except Exception as err:
+        setValuesLogs(success=False, error=err)
+        raise Exception(err)
 
-        # print(stdout.read().decode())
-        # lines = stdout.readlines()
-        # linesErr = stderr.readlines()
-        # if(linesErr):
-        #     raise exceptions.ExecucaoComandoBashError(linesErr)
-        # else:
 
 def closeConnectionHost():
     print(textoFeedbackFinalConexao
@@ -286,12 +249,14 @@ def repeatConnections():
         
 def main():
     try:
+        UI = userInterface(commands=commandsCisco)
+        global choosenCommand
+        choosenCommand = UI.menu()
         start = time.time()
         openLogFile()
         getUsernameInput()
         readFiles()
         repeatConnections()
-        closeLogFile()
         end = time.time()
         f = open("timeSingleThread.txt", "a")
         f.write(str(end-start) + "\n")
@@ -351,7 +316,10 @@ def main():
         setFlag(False)
         print(traceback.format_exc())
         print(errorGenerico)
-
+        # writeLogFile(flag, content=[connectionInfoList["hostname"], connectionInfoList["user"], connectionInfoList["host"], connectionInfoList["port"]])
+    finally:
+        writeLogFile()
+        closeLogFile()
 
 if __name__ == "__main__":
     main()
