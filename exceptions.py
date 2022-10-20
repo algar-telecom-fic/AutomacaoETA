@@ -12,3 +12,6 @@ class ConfirmacaoNegadaError(Exception):
 
 class ExecucaoComandoBashError(Exception):
     pass
+
+class ConexaoNaoEstabelecida(Exception):
+    pass

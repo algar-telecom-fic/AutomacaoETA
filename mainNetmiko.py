@@ -2,6 +2,8 @@ from calendar import week
 import traceback
 import paramiko
 from netmiko import ConnectHandler
+import netmiko
+import sys
 import json
 import datetime
 import io
@@ -18,6 +20,7 @@ errorResultadosConflitantes = "Foi encontrado mais de um resultado na busca. A o
 errorResultadoNaoEncontrado = "Nao foram encontrados resultados para a busca selecionada."
 errorRetornoIncorreto = "O retorno da funcao nao foi o esperado ou foi incorreto"
 errorConfirmacaoBusca = "A busca foi cancelada pelo usuario!"
+errorConexaoNaoEstabelecida = "Nao foi possivel conectar ao dispositivo! Verifique se as informacoes passadas estao corretas."
 errorExecucaoComandoBash = "Erro na execucao do comando configurado no dispositivo!"
 errorAutenticacao = "Falha na autenticacao. Verifique as credenciais!"
 errorConexaoInvalida = "Nao foi possivel conectar!"
@@ -34,6 +37,7 @@ commandsCisco = [
     {
         "action": "show network info",
         "commands": ["show ip interface brief", "show running-config"]
+        # "commands": ["show ip interface brief"]
     },
     # {
     #     "action": "show ip address",
@@ -55,6 +59,7 @@ header = "usuario execucao" + delimiter + "flag" + delimiter + "dia semana" + de
 hostsVerificados = 0
 connectionInfoList = {}
 connectionInfo = {}
+connectionInfoFiltered = []
 flag = True
 logFile: io.TextIOWrapper = None
 username = ""
@@ -108,20 +113,27 @@ def writeLogFile():
 
 def closeLogFile():
     global logFile
-    logFile.close()
-
-def setFlag(flagParam):
-    global flag
-    flag = flagParam
-    logsList[len(logsList)-1].obj["flag"] = flagParam
+    if logFile:
+        logFile.close()
 
 def readConnectionInfo():
     try:
         infoFile = open("./values/data.json")
         global connectionInfo
         connectionInfo = json.load(infoFile)["data"]
+        # print("to aqui")
+        # global connectionInfoFiltered
+        for i in connectionInfo:
+            if (i["executable"] == True):
+                connectionInfoFiltered.append(i)
+        # print(json.load(infoFile)["data"][0]["executable"])
     except:
         print("Erro na abertura do JSON de configuracao de hosts")
+
+def setFlag(flagParam):
+    global flag
+    flag = flagParam
+    logsList[len(logsList)-1].obj["flag"] = flagParam
 
 def setValuesLogs(userRequest = "", flag = "", weekday = "", date = "", time = "", command = "", hostname = "", userRemote = "", host = "", port = "", success = "", error = ""):
     if userRequest:
@@ -151,7 +163,9 @@ def setValuesLogs(userRequest = "", flag = "", weekday = "", date = "", time = "
     
 def connectHost():
     global connectionInfoList, hostsVerificados
-    connectionInfoList = connectionInfo[hostsVerificados]
+    if(hostsVerificados >= len(connectionInfoFiltered)):
+        return False
+    connectionInfoList = connectionInfoFiltered[hostsVerificados]
     # if connectionInfoList["executable"] == False:
     #     hostsVerificados += 1
     #     return False
@@ -159,13 +173,13 @@ def connectHost():
     logsList.append(logsClass())
     setValuesLogs(userRequest=username, weekday=getWeekday(), date=getDate(), time=getTime())
 
-    print(textoFeedbackInicioConexao
+    print("\n\n" + textoFeedbackInicioConexao
         .replace("hostname", connectionInfoList["hostname"])
         .replace("user", connectionInfoList["username"])
         .replace("host", connectionInfoList["host"])
         .replace("port", connectionInfoList["port"])
     )
-    setValuesLogs(hostname=connectionInfoList["host"], host=connectionInfoList["host"], port=connectionInfoList["port"], userRemote=connectionInfoList["username"])
+    setValuesLogs(hostname=connectionInfoList["hostname"], host=connectionInfoList["host"], port=connectionInfoList["port"], userRemote=connectionInfoList["username"])
     try:
         obj = {
             "device_type": connectionInfoList["device_type"],
@@ -175,12 +189,28 @@ def connectHost():
             "password": connectionInfoList["password"]
         }
         # print(obj)
+        # try:
         global ssh
         ssh = ConnectHandler(**obj)
         setFlag(True)
         setValuesLogs(flag = flag, success=True)
         return True
+        # except netmiko.exceptions.NetmikoTimeoutException as err:
+        #     print("ola")
+        #     raise exceptions.ConexaoNaoEstabelecida(err)
+        # except Exception as err:
+        #     # setFlag(False)
+        #     # print(traceback.format_exc())
+        #     # print(errorConexaoNaoEstabelecida)
+        #     raise Exception(err)
     except Exception as err:
+        if type(err) == netmiko.exceptions.NetmikoTimeoutException:
+            tempString = str(err)
+            tempString = tempString.replace("\n", " ")
+            tempString = tempString.replace("  ", " ")
+            setValuesLogs(success=False, error=tempString)
+            raise netmiko.exceptions.NetmikoTimeoutException(tempString)
+        print(err)
         setFlag(False)
         setValuesLogs(flag = flag, command=False, success=False, error=err)
         print(logsList[len(logsList)-1].printResult())
@@ -219,7 +249,7 @@ def closeConnectionHost():
         .replace("host", connectionInfoList["host"])
         .replace("port", connectionInfoList["port"])
     )
-    # ssh.close()
+    ssh.disconnect()
     logsList[len(logsList)-1].obj["flag"] = flag
     logsList[len(logsList)-1].obj["hostname"] = connectionInfoList["hostname"]
     logsList[len(logsList)-1].obj["userRemote"] = connectionInfoList["username"]
@@ -252,14 +282,19 @@ def main():
         UI = userInterface(commands=commandsCisco)
         global choosenCommand
         choosenCommand = UI.menu()
-        start = time.time()
-        openLogFile()
-        getUsernameInput()
-        readFiles()
-        repeatConnections()
-        end = time.time()
-        f = open("timeSingleThread.txt", "a")
-        f.write(str(end-start) + "\n")
+        if choosenCommand != False:
+            start = time.time()
+            openLogFile()
+            getUsernameInput()
+            readFiles()
+            UI.setDevices(connectionInfoFiltered)
+            continueCommand = UI.showPreRunCommands()
+            if continueCommand == False:
+                exit(0)
+            repeatConnections()
+            end = time.time()
+            f = open("timeSingleThread.txt", "a")
+            f.write(str(end-start) + "\n")
     except FileNotFoundError as error:
         setFlag(False)
         print(traceback.format_exc())
@@ -267,11 +302,10 @@ def main():
         print(errorAberturaArquivoConfig)
     except SyntaxError as error:
         setFlag(False)
-
         print(error.args[1])
         # print(traceback.format_exc())
         print(errorFormatacaoArquivoConfig)
-    
+    # handling errors from paramiko
     except paramiko.AuthenticationException as error:
         setFlag(False)
         # print(traceback.format_exc())
@@ -287,6 +321,12 @@ def main():
         print(error)
         print(errorRecursoTemporariamenteInvalido)
     
+    # handling errors from netmiko
+    except netmiko.exceptions.NetmikoTimeoutException as err:
+        setFlag(False)
+        print(err)
+        print(errorConexaoNaoEstabelecida)
+
     except exceptions.ResultadosConflitantesError:
         setFlag(False)
         print(traceback.format_exc())
@@ -305,6 +345,10 @@ def main():
         setFlag(False)
         print(traceback.format_exc())
         print(errorConfirmacaoBusca)
+    except exceptions.ConexaoNaoEstabelecida as err:
+        setFlag(False)
+        print(traceback.format_exc())
+        print(errorConexaoNaoEstabelecida)
     except exceptions.ExecucaoComandoBashError as error:
         setFlag(False)
         # print(traceback.format_exc())
@@ -312,6 +356,8 @@ def main():
         print("Erro na execucao do comando configurado no dispositivo!")
         print(error)
         print("==========================\n")
+    except SystemExit:
+        print("Encerrando programa")
     except:
         setFlag(False)
         print(traceback.format_exc())
