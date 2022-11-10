@@ -1,0 +1,19 @@
+{
+    "cisco":[
+        {
+            "action": "show network info",
+            "commands": ["show ip interface brief", "show running-config"]
+        },
+        {
+            "action": "sh run",
+            "commands": ["show ip interface brief"]
+        }
+    ],
+    "juniper":[
+        {
+            "action": "show network info",
+            "commands": ["show ip interface brief", "show running-config"]
+        }
+    ]
+}
+

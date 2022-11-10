@@ -414,3 +414,32 @@ gabriel,True,Wednesday,10/19/2022,21:58:47,['show ip interface brief', 'show run
 gabriel,True,Wednesday,10/19/2022,21:58:49,['show ip interface brief', 'show running-config'],Cisco R2,cisco,192.168.20.3,22,True,
 gabriel,True,Wednesday,10/19/2022,21:59:07,['show ip interface brief', 'show running-config'],Cisco R1,cisco,192.168.20.3,22,True,
 gabriel,True,Wednesday,10/19/2022,21:59:08,['show ip interface brief', 'show running-config'],Cisco R2,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/21/2022,13:41:29,['show ip interface brief', 'show running-config'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,10/21/2022,13:41:31,['show ip interface brief', 'show running-config'],Cisco R2,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,11/04/2022,13:14:01,['show ip interface brief', 'show running-config'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,False,Friday,11/04/2022,13:14:03,,Cisco R2,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/04/2022,13:14:38,['show ip interface brief', 'show running-config'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Thursday,11/10/2022,14:58:53,,Cisco R1,cisco,192.168.20.3,22,False,local variable 'commands' referenced before assignment
+gabriel,False,Thursday,11/10/2022,14:59:33,,Cisco R1,cisco,192.168.20.3,22,False,Comando para execucao no equipamento, nao encontrado!
+gabriel,False,Thursday,11/10/2022,15:00:03,,Cisco R1,cisco,192.168.20.3,22,False,Comando para execucao no equipamento, nao encontrado!
+gabriel,False,Thursday,11/10/2022,15:01:02,,Cisco R1,cisco,192.168.20.3,22,False,Comando para execucao no equipamento, nao encontrado!
+gabriel,False,Thursday,11/10/2022,15:01:42,,Cisco R1,cisco,192.168.20.3,22,False,Comando para execucao no equipamento, nao encontrado!
+gabriel,False,Thursday,11/10/2022,15:09:31,,Cisco R1,cisco,192.168.20.3,22,False,Comando para execucao no equipamento, nao encontrado!
+gabriel,False,Thursday,11/10/2022,15:12:39,,Cisco R1,cisco,192.168.20.3,22,False,Comando para execucao no equipamento, nao encontrado!
+gabriel,False,Thursday,11/10/2022,15:13:09,,Cisco R1,cisco,192.168.20.3,22,False,Comando para execucao no equipamento, nao encontrado!
+gabriel,False,Thursday,11/10/2022,15:14:05,,Cisco R1,cisco,192.168.20.3,22,False,Comando para execucao no equipamento, nao encontrado!
+gabriel,True,Thursday,11/10/2022,15:15:03,['show ip interface brief', 'show running-config'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:15:05,['show ip interface brief'],Cisco R2,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:18:01,['show ip interface brief', 'show running-config'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:18:02,['show ip interface brief'],Cisco R2,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:26:45,['show ip interface brief', 'show running-config'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:26:47,['show ip interface brief'],Cisco R2,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:28:48,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:28:49,['show ip interface brief', 'show running-config'],Cisco R2,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:30:20,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:30:21,['show ip interface brief', 'show running-config'],Cisco R2,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:31:13,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:34:04,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:34:38,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:37:31,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Thursday,11/10/2022,15:37:32,['show ip interface brief'],Cisco R2,cisco,192.168.20.3,22,True,

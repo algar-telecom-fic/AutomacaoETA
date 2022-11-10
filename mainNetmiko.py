@@ -1,4 +1,5 @@
 from calendar import week
+from re import L
 import traceback
 import paramiko
 from netmiko import ConnectHandler
@@ -14,6 +15,7 @@ import exceptions
 from logs import logs as logsClass
 from userInterface import userInterface
 
+# Mensagens de erro que serao mostradas no console
 errorFormatacaoArquivoConfig = "Formato do arquivo incorreto!"
 errorAberturaArquivoConfig = "Falha na abertura do arquivo!"
 errorResultadosConflitantes = "Foi encontrado mais de um resultado na busca. A operacao nao foi executada!"
@@ -33,17 +35,17 @@ textoExecucaoCorreta = "O script foi executado corretamente e o arquivo de saida
 textoFeedbackInicioConexao = "Iniciando conexao em: \"hostname\" (user@host:port)"
 textoFeedbackFinalConexao = "Encerrando conexao em: \"hostname\" (user@host:port)"
 
-commandsCisco = [
-    {
-        "action": "show network info",
-        "commands": ["show ip interface brief", "show running-config"]
-        # "commands": ["show ip interface brief"]
-    },
-    # {
-    #     "action": "show ip address",
-    #     "commands": ["ip address print"]
-    # },
-]
+# commandsCisco = [
+#     {
+#         "action": "show network info",
+#         "commands": ["show ip interface brief", "show running-config"]
+#         # "commands": ["show ip interface brief"]
+#     },
+#     # {
+#     #     "action": "show ip address",
+#     #     "commands": ["ip address print"]
+#     # },
+# ]
 
 choosenCommand = ""
 
@@ -53,7 +55,7 @@ choosenCommand = ""
 delimiter = ","
 delimiter1 = "\""
 newLine = "\n"
-
+flagOutputFile = False
 header = "usuario execucao" + delimiter + "flag" + delimiter + "dia semana" + delimiter + "data (MM/DD/YYYY)" + delimiter + "horario" + delimiter + "comando" + delimiter + "hostname" + delimiter + "usuario remoto" + delimiter + "host" + delimiter + "porta" + delimiter + "sucesso execucao remoto" + delimiter + "erro" + newLine
 
 hostsVerificados = 0
@@ -116,6 +118,13 @@ def closeLogFile():
     if logFile:
         logFile.close()
 
+def openOutputFile():
+    global outputFile
+    outputFile = open("./saida.txt", "w")
+
+def closeOutputFile():
+    outputFile.close()
+
 def readConnectionInfo():
     try:
         infoFile = open("./values/data.json")
@@ -129,6 +138,17 @@ def readConnectionInfo():
         # print(json.load(infoFile)["data"][0]["executable"])
     except:
         print("Erro na abertura do JSON de configuracao de hosts")
+
+def readCommandsFile():
+    try:
+        commandsJson = open("./values/commands.json")
+        global commandsCisco
+        commandsCisco = json.load(commandsJson)["cisco"]
+        # global commandsJuniper
+        # commandsJuniper = json.load(commandsJson)["juniper"]
+        print(commandsCisco)
+    except:
+        print("Erro na abertura do arquivo de comandos JSON")
 
 def setFlag(flagParam):
     global flag
@@ -173,6 +193,8 @@ def connectHost():
     logsList.append(logsClass())
     setValuesLogs(userRequest=username, weekday=getWeekday(), date=getDate(), time=getTime())
 
+    global deviceName
+    deviceName = connectionInfoList["hostname"]
     print("\n\n" + textoFeedbackInicioConexao
         .replace("hostname", connectionInfoList["hostname"])
         .replace("user", connectionInfoList["username"])
@@ -190,6 +212,9 @@ def connectHost():
         }
         # print(obj)
         # try:
+        global commandChoosen
+        commandChoosen = connectionInfoList["commands"]
+        
         global ssh
         ssh = ConnectHandler(**obj)
         setFlag(True)
@@ -221,22 +246,30 @@ def connectHost():
 
 def executeCommandHostCisco():
     try:
+        commands = ""
         for i in commandsCisco:
-            if(i["action"] == choosenCommand):
+            global commandChoosen
+            if(i["commands"] == commandChoosen):
                 commands = i["commands"]
                 break
         if(commands == ""):
             raise exceptions.ResultadosNaoEncontradosError("Comando para execucao no equipamento, nao encontrado!")
 
+        tempString = ""
         for j in commands:
-            print("\nComando: " + j)
+            tempString += newLine + deviceName + newLine
+            tempString += ("Comando: " + j + newLine)
             setValuesLogs(command=commands)
             stdout = ssh.send_command(j)
             if stdout.find("Invalid input detected at '^' marker.") == -1:
                 setValuesLogs(success=True)
-                print(stdout)
+                tempString += stdout + newLine
             else:
                 raise exceptions.ExecucaoComandoBashError(stdout)
+        if flagOutputFile == True:
+            outputFile.write(tempString)
+        else:
+            print(stdout)
     except Exception as err:
         setValuesLogs(success=False, error=err)
         raise Exception(err)
@@ -267,6 +300,7 @@ def getUsernameInput():
 
 def readFiles():
     readConnectionInfo()
+    readCommandsFile()
 
 def repeatConnections():
     for i in range(len(connectionInfo)):
@@ -279,19 +313,38 @@ def repeatConnections():
         
 def main():
     try:
+        readFiles()
         UI = userInterface(commands=commandsCisco)
-        global choosenCommand
-        choosenCommand = UI.menu()
+        # global choosenCommand
+        # choosenCommand = UI.menu()
+        if UI.menu() == False:
+            exit(0)
+
+        global flagOutputFile
+        if UI.outputFileChoose() == False:
+            flagOutputFile = False
+        else:
+            flagOutputFile = True
+            openOutputFile()
+
+        for idx, elem in enumerate(connectionInfoFiltered):
+            connectionInfoFiltered[idx]["commands"] = UI.chooseCommand()
+            print(elem)
+        for idx, elem in enumerate(connectionInfoFiltered):
+            # connectionInfoFiltered[idx] = "sh run"
+            print(elem)
         if choosenCommand != False:
             start = time.time()
             openLogFile()
             getUsernameInput()
-            readFiles()
+            # UI.chooseCommand()
             UI.setDevices(connectionInfoFiltered)
             continueCommand = UI.showPreRunCommands()
             if continueCommand == False:
                 exit(0)
             repeatConnections()
+            if flagOutputFile == True:
+                closeOutputFile()
             end = time.time()
             f = open("timeSingleThread.txt", "a")
             f.write(str(end-start) + "\n")
