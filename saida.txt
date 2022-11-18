@@ -1,18 +1,13 @@
 
 Cisco R1
-Comando: show ip interface brief
-Interface              IP-Address      OK? Method Status                Protocol
-FastEthernet0/0        192.168.1.1     YES NVRAM  up                    up      
-FastEthernet1/0        192.168.2.1     YES NVRAM  up                    up      
-FastEthernet1/1        unassigned      YES NVRAM  administratively down down    
-GigabitEthernet2/0     192.168.20.3    YES NVRAM  up                    up      
-GigabitEthernet3/0     unassigned      YES NVRAM  administratively down down    
+Comando: ['interface gigabitEthernet 3/0', 'no ip address 192.168.40.100 255.255.255.0', 'no shutdown', 'do wr']
+configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#interface gigabitEthernet 3/0
+R1(config-if)#no ip address 192.168.40.100 255.255.255.0
+R1(config-if)#no shutdown
+R1(config-if)#end
+R1#
 
-Cisco R2
-Comando: show ip interface brief
-Interface              IP-Address      OK? Method Status                Protocol
-FastEthernet0/0        192.168.1.1     YES NVRAM  up                    up      
-FastEthernet1/0        192.168.2.1     YES NVRAM  up                    up      
-FastEthernet1/1        unassigned      YES NVRAM  administratively down down    
-GigabitEthernet2/0     192.168.20.3    YES NVRAM  up                    up      
-GigabitEthernet3/0     unassigned      YES NVRAM  administratively down down    
+Building configuration...
+[OK]

@@ -443,3 +443,58 @@ gabriel,True,Thursday,11/10/2022,15:34:04,['show ip interface brief'],Cisco R1,c
 gabriel,True,Thursday,11/10/2022,15:34:38,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
 gabriel,True,Thursday,11/10/2022,15:37:31,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
 gabriel,True,Thursday,11/10/2022,15:37:32,['show ip interface brief'],Cisco R2,cisco,192.168.20.3,22,True,
+gabriel,True,Saturday,11/12/2022,13:50:16,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Saturday,11/12/2022,13:50:16,['show ip interface brief'],Cisco R2,cisco,192.168.20.3,22,True,
+gabriel,True,Sunday,11/13/2022,13:40:02,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,False,Sunday,11/13/2022,13:40:03,,Cisco R2,cisco,192.168.20.3,22,False,Comando para execucao no equipamento, nao encontrado!
+gabriel,True,Sunday,11/13/2022,13:41:49,['show ip interface brief'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,False,Sunday,11/13/2022,13:41:50,,Cisco R2,cisco,192.168.20.3,22,False,Comando para execucao no equipamento, nao encontrado!
+gabriel,False,Sunday,11/13/2022,13:42:57,['ip address [1] [2]'],Cisco R1,cisco,192.168.20.3,22,False,    ^
+% Invalid input detected at '^' marker.
+
+gabriel,False,Sunday,11/13/2022,13:43:31,['ip address [1] [2]'],Cisco R1,cisco,192.168.20.3,22,False,    ^
+% Invalid input detected at '^' marker.
+
+gabriel,False,Sunday,11/13/2022,13:45:17,['ip address [1] [2]'],Cisco R1,cisco,192.168.20.3,22,False,    ^
+% Invalid input detected at '^' marker.
+
+gabriel,False,Sunday,11/13/2022,13:46:34,['ip address [1] [2]'],Cisco R1,cisco,192.168.20.3,22,False,    ^
+% Invalid input detected at '^' marker.
+
+gabriel,False,Sunday,11/13/2022,13:47:24,['ip address [1] [2]'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Sunday,11/13/2022,13:48:20,['ip address [1] [2]'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Sunday,11/13/2022,14:01:12,['configure terminal', 'interface gigabitEthernet 3/0', 'ip addresssadasdas 192 255'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,13:17:51,['configure terminal', 'interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,13:21:17,['configure terminal', 'interface gigabitEthernet 3/0', 'ip address 192 255', 'no shutdown', 'exit', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,13:23:08,['configure terminal', 'interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'exit', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,13:23:52,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'exit', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,13:35:04,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,True,Friday,11/18/2022,13:37:34,['interface gigabitEthernet 3/0'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,False,Friday,11/18/2022,13:40:41,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 300.255.255.255', 'no shutdown'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,13:42:11,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 300.255.255.255', 'no shutdown'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,13:43:06,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'exit', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,True,Friday,11/18/2022,13:46:44,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,False,Friday,11/18/2022,13:49:55,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,13:56:00,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,13:58:53,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:08:21,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:12:09,interface gigabitEthernet 3/0,Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:13:06,interface gigabitEthernet 3/0,Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:14:59,interface gigabitEthernet 3/0,Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:17:42,interface gigabitEthernet 3/0,Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:18:41,interface gigabitEthernet 3/0,Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:21:01,interface gigabitEthernet 3/0,Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:23:02,,Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,False,Friday,11/18/2022,14:23:49,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:27:54,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:28:41,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:29:26,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:30:42,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:31:06,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,True,Friday,11/18/2022,14:32:01,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.255', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,False,Friday,11/18/2022,14:34:31,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.0', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:37:00,['interface gigabitEthernet 3/0', 'ip address 192.168.20.100 255.255.255.0', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:37:43,['interface gigabitEthernet 3/0', 'ip address 192.168.40.100 255.255.255.0', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,False,Friday,11/18/2022,14:40:10,['interface gigabitEthernet 3/0', 'ip address 192.168.40.100 255.255.255.0', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,,
+gabriel,True,Friday,11/18/2022,14:40:27,['interface gigabitEthernet 3/0', 'ip address 192.168.40.100 255.255.255.0', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,True,
+gabriel,True,Friday,11/18/2022,14:43:46,['interface gigabitEthernet 3/0', 'no ip address 192.168.40.100 255.255.255.0', 'no shutdown', 'do wr'],Cisco R1,cisco,192.168.20.3,22,True,

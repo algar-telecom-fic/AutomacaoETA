@@ -38,10 +38,13 @@ class userInterface:
         flag = True
         filteredCommand = []
         while flag:
-            commandInput = input("Digite o comando que deseja executar: ")
+            self.commandInput = input("Digite o comando que deseja executar: ")
             for i in self.commands:
-                if i["action"] == commandInput:
-                    filteredCommand = i["commands"]
+                if i["action"] == self.commandInput:
+                    if i["modifyCommand"] == True:
+                        filteredCommand = self.getParams()
+                    else:
+                        filteredCommand = i["commands"]
                     return filteredCommand
             
             #se nao retornar algum valor, nao existe o comando registrado
@@ -49,6 +52,35 @@ class userInterface:
         
         return ""
         # return commandInput
+
+    def getParams(self):
+        values = input("Digite os valores, separados por espaços: ").split(" ")
+        for _, elem in enumerate(self.commands):
+            if self.commandInput == elem["action"]:
+                commandSearch = elem["commands"]
+                break
+        
+        print(commandSearch)
+        qtdCommands = 0
+        for x in commandSearch:
+            qtdCommands += x.count("]")
+        
+        if len(values) != qtdCommands:
+            print("Parametros Invalidos")
+            return ""
+        
+        tempCont = 1
+        for idx, x in enumerate(commandSearch):
+            for i in range(tempCont, tempCont + qtdCommands):
+                x = x.replace("["+str(i)+"]", values[i-1])
+            commandSearch[idx] = x
+
+        # for i in range(1, len(values) + 1):
+
+        return (commandSearch)
+
+        # verificar abaixo, o que pode estar acontecendo para comecar a capturar os erros. comando configurado esta errado de proposito
+        # You can also look at the Netmiko session_log or debug log for more information.
 
     def showHelp(self):
         print("Os comandos existentes sao: ")

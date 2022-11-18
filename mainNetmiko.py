@@ -186,10 +186,6 @@ def connectHost():
     if(hostsVerificados >= len(connectionInfoFiltered)):
         return False
     connectionInfoList = connectionInfoFiltered[hostsVerificados]
-    # if connectionInfoList["executable"] == False:
-    #     hostsVerificados += 1
-    #     return False
-    # else:
     logsList.append(logsClass())
     setValuesLogs(userRequest=username, weekday=getWeekday(), date=getDate(), time=getTime())
 
@@ -208,7 +204,8 @@ def connectHost():
             "host": connectionInfoList["host"],
             "port": connectionInfoList["port"],
             "username": connectionInfoList["username"],
-            "password": connectionInfoList["password"]
+            "password": connectionInfoList["password"],
+            # "fast_cli": False
         }
         # print(obj)
         # try:
@@ -245,34 +242,46 @@ def connectHost():
         return False
 
 def executeCommandHostCisco():
-    try:
-        commands = ""
-        for i in commandsCisco:
-            global commandChoosen
-            if(i["commands"] == commandChoosen):
-                commands = i["commands"]
-                break
-        if(commands == ""):
-            raise exceptions.ResultadosNaoEncontradosError("Comando para execucao no equipamento, nao encontrado!")
+    ssh.enable()
+    # ssh.config_mode()
+    commands = ""
 
-        tempString = ""
-        for j in commands:
-            tempString += newLine + deviceName + newLine
-            tempString += ("Comando: " + j + newLine)
-            setValuesLogs(command=commands)
-            stdout = ssh.send_command(j)
-            if stdout.find("Invalid input detected at '^' marker.") == -1:
-                setValuesLogs(success=True)
-                tempString += stdout + newLine
-            else:
-                raise exceptions.ExecucaoComandoBashError(stdout)
-        if flagOutputFile == True:
-            outputFile.write(tempString)
-        else:
-            print(stdout)
-    except Exception as err:
-        setValuesLogs(success=False, error=err)
-        raise Exception(err)
+    # modifyCommand = False
+
+    for i in commandsCisco:
+        global commandChoosen
+        if(i["commands"] == commandChoosen):
+            commands = i["commands"]
+            # modifyCommand = i["modifyCommand"]
+            break
+    if(commands == ""):
+        raise exceptions.ResultadosNaoEncontradosError("Comando para execucao no equipamento, nao encontrado!")
+
+    tempString = ""
+    tempString += newLine + deviceName + newLine
+    tempString += ("Comando: " + str(commands) + newLine)
+    setValuesLogs(command=commands)
+    # if commands[-1:] == ["do wr"]:
+    stdout = ssh.send_config_set(commands[:-1])
+    ssh.config_mode()
+    stdout += newLine + newLine + ssh.send_command_timing(commands[-1:][0])
+    
+    print(ssh.find_prompt())
+        
+    if stdout.find("Invalid input detected at '^' marker.") == -1:
+        setValuesLogs(success=True)
+        tempString += stdout + newLine
+    else:
+        raise exceptions.ExecucaoComandoBashError(stdout + "Houve erro na execucao do comando. Verifique se esta escrito corretamente.")
+
+    if flagOutputFile == True:
+        outputFile.write(tempString)
+    else:
+        print(stdout)
+
+        # ssh.exit_config_mode()
+    # else:
+    #     print("Netmiko nao esta no modo de configuracao")
 
 
 def closeConnectionHost():

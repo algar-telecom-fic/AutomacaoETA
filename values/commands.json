@@ -2,11 +2,33 @@
     "cisco":[
         {
             "action": "show network info",
-            "commands": ["show ip interface brief", "show running-config"]
+            "commands": ["show ip interface brief", "show running-config"],
+            "modifyCommand": false
         },
         {
             "action": "sh run",
-            "commands": ["show ip interface brief"]
+            "commands": ["show ip interface brief"],
+            "modifyCommand": false
+        },
+        {
+            "action": "set int ip",
+            "commands": [
+                "interface gigabitEthernet [1]", 
+                "ip address [2] [3]", 
+                "no shutdown",
+                "do wr"
+            ],
+            "modifyCommand": true
+        },
+        {
+            "action": "no set int ip",
+            "commands": [
+                "interface gigabitEthernet [1]", 
+                "no ip address [2] [3]", 
+                "no shutdown",
+                "do wr"
+            ],
+            "modifyCommand": true
         }
     ],
     "juniper":[
