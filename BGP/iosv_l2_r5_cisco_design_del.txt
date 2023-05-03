@@ -1,0 +1,8 @@
+no int loop 0
+int fastEthernet 0/0
+no ip address
+int fastEthernet 2/0
+no ip address
+no router bgp 200
+end
+wr
