@@ -5,3 +5,4 @@ indevidamente, portas com status down,​ upgrades necessários, ele atua realiz
 Foi verificado que a implementação desta automação diminuiria o esforço para identificar o problema em cerca de 70%, além de reduzir a zero os gastos 
 em verificações devido a ausência de trabalho do engenheiro.
 
+O código desenvolvido verifica se o protocolo telnet está ativo nos equipamentos e da a possibilitade de ativar ou não.
