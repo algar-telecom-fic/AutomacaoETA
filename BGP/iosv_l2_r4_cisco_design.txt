@@ -1,0 +1,12 @@
+int loop 0
+ip address 1.1.1.1 255.255.255.255
+int fastEthernet 1/0
+ip address 20.0.0.1 255.255.255.0
+no shutdown
+router bgp 100
+neighbor 20.0.0.2 remote-as 200
+network 1.1.1.1 mask 255.255.255.255
+network 20.0.0.0 mask 255.255.255.0
+network 100.100.100.0 mask 255.255.255.0
+end
+wr
